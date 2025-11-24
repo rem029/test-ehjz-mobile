@@ -1,23 +1,23 @@
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { Link, router } from "expo-router";
-import { authService } from "../services/authService";
+import { useAuth } from "../hooks/useAuth";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { signIn, isLoading } = useAuth();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -30,10 +30,8 @@ export default function LoginPage() {
       return;
     }
 
-    setLoading(true);
-
     try {
-      await authService.signIn({
+      await signIn({
         email: email.toLowerCase().trim(),
         password,
       });
@@ -41,8 +39,6 @@ export default function LoginPage() {
       router.replace("/");
     } catch (error: any) {
       Alert.alert("Login Error", error.message || "Failed to login");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -82,11 +78,11 @@ export default function LoginPage() {
           </View>
 
           <TouchableOpacity
-            style={[styles.loginButton, loading && styles.disabledButton]}
+            style={[styles.loginButton, isLoading && styles.disabledButton]}
             onPress={handleLogin}
-            disabled={loading}
+            disabled={isLoading}
           >
-            {loading ? (
+            {isLoading ? (
               <ActivityIndicator color="#ffffff" />
             ) : (
               <Text style={styles.loginButtonText}>Sign In</Text>

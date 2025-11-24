@@ -1,18 +1,18 @@
+import { useAuth } from "@/hooks/useAuth";
+import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
   ActivityIndicator,
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import { Link, router } from "expo-router";
-import { authService } from "../services/authService";
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -25,6 +25,8 @@ export default function RegisterPage() {
   });
   const [dob, setDob] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const { signUp } = useAuth();
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({
@@ -93,12 +95,12 @@ export default function RegisterPage() {
         dob: dob, // Format as YYYY-MM-DD
       };
 
-      await authService.signUp(registrationData);
+      await signUp(registrationData);
 
       Alert.alert(
         "Success",
         "Registration successful! You can now login with your credentials.",
-        [{ text: "OK", onPress: () => router.push("/login") }]
+        [{ text: "OK", onPress: () => router.replace("/login") }]
       );
     } catch (error: any) {
       Alert.alert("Registration Error", error.message || "Failed to register");
