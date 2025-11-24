@@ -94,13 +94,14 @@ export default StyleSheet.create({
   locationLoading: {
     ...globalStyles.row,
     justifyContent: "center",
+    alignItems: "center",
     padding: SPACING.base,
     marginHorizontal: SPACING.xl,
     marginTop: SPACING.lg,
-    backgroundColor: COLORS.background,
     borderRadius: RADIUS.md,
     borderWidth: 1,
     borderColor: COLORS.divider,
+    height: "100%",
   },
   locationLoadingText: {
     marginLeft: SPACING.md,

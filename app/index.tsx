@@ -74,7 +74,7 @@ export default function Index() {
   }
 
   return (
-    <View style={{ ...styles.container, justifyContent: "flex-start" }}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.header_left}>
           <Text style={styles.title}>Welcome!</Text>
@@ -96,42 +96,44 @@ export default function Index() {
         </View>
       </View>
 
-      {locationPermission === "granted" && currentLocation && (
-        <View style={styles.mapContainer}>
-          {loadingLocation ? (
-            <View style={styles.locationLoading}>
-              <ActivityIndicator size="small" color="#007AFF" />
-              <Text style={styles.locationLoadingText}>
-                Getting your location...
-              </Text>
-            </View>
-          ) : (
-            <MapView
-              style={styles.map}
-              provider={PROVIDER_GOOGLE}
-              initialRegion={{
-                latitude: currentLocation.coords.latitude,
-                longitude: currentLocation.coords.longitude,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.01,
-              }}
-              showsUserLocation
-              showsMyLocationButton
-            >
-              <Marker
-                coordinate={{
+      <View style={styles.mapContainer}>
+        {loadingLocation ? (
+          <View style={styles.locationLoading}>
+            <ActivityIndicator size="small" color="#007AFF" />
+            <Text style={styles.locationLoadingText}>
+              Getting your location...
+            </Text>
+          </View>
+        ) : (
+          <>
+            {locationPermission === "granted" && currentLocation && (
+              <MapView
+                style={styles.map}
+                provider={PROVIDER_GOOGLE}
+                initialRegion={{
                   latitude: currentLocation.coords.latitude,
                   longitude: currentLocation.coords.longitude,
+                  latitudeDelta: 0.01,
+                  longitudeDelta: 0.01,
                 }}
-                title="You are here"
-                description={`Lat: ${currentLocation.coords.latitude.toFixed(
-                  6
-                )}, Lng: ${currentLocation.coords.longitude.toFixed(6)}`}
-              />
-            </MapView>
-          )}
-        </View>
-      )}
+                showsUserLocation
+                showsMyLocationButton
+              >
+                <Marker
+                  coordinate={{
+                    latitude: currentLocation.coords.latitude,
+                    longitude: currentLocation.coords.longitude,
+                  }}
+                  title="You are here"
+                  description={`Lat: ${currentLocation.coords.latitude.toFixed(
+                    6
+                  )}, Lng: ${currentLocation.coords.longitude.toFixed(6)}`}
+                />
+              </MapView>
+            )}
+          </>
+        )}
+      </View>
       <View style={styles.actionsContainer}>
         <TouchableOpacity
           style={[

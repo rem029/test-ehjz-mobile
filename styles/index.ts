@@ -125,13 +125,14 @@ export const globalStyles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     backgroundColor: COLORS.background,
     width: "100%",
+    height: "100%",
   },
 
   keyboardView: {
-    flex: 1,
+    width: "100%",
   },
 
   scrollContent: {
