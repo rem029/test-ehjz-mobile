@@ -24,7 +24,7 @@ export const useLogger = () => {
           data: data ? JSON.stringify(data) : null,
           created_at: new Date().toISOString(),
         };
-
+        console.log("Logging entry:", logEntry);
         const { error } = await supabase.from("logs").insert([logEntry]);
 
         if (error) {

@@ -20,17 +20,14 @@ export interface SignInData {
 export const useAuth = () => {
   const {
     user,
-    session,
-    isAuthenticated,
-    isLoading,
-    isInitialized,
     setUser,
+    setProfile,
     setSession,
     setLoading,
     setInitialized,
     reset,
   } = useAuthStore();
-  const { error: errorMsg } = useLogger();
+  const { error: errorMsg, info } = useLogger();
 
   // Initialize auth state
   useEffect(() => {
@@ -57,6 +54,7 @@ export const useAuth = () => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
+      if (event === "SIGNED_OUT") setProfile(null);
     });
 
     return () => {
@@ -65,9 +63,29 @@ export const useAuth = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setUser, setLoading, setInitialized]);
 
+  const fetchUserProfile = useCallback(
+    async (userId: string) => {
+      try {
+        const { data, error } = await supabase
+          .from("users")
+          .select("full_name, dob, address")
+          .eq("id", userId)
+          .single();
+
+        if (error) throw error;
+        setProfile(data);
+        return data;
+      } catch (error) {
+        await errorMsg("Failed to fetch user profile:", error);
+        return null;
+      }
+    },
+    [errorMsg, setProfile]
+  );
+
   const signUp = useCallback(
     async (data: SignUpData) => {
-      console.log("at signUp...");
+      console.log("at signUp...", data.email, data.mobileNumber);
       setLoading(true);
       try {
         // First, sign up with Supabase Auth (auto-confirmed)
@@ -78,6 +96,7 @@ export const useAuth = () => {
             phone: data.mobileNumber,
             options: {
               emailRedirectTo: undefined,
+              data,
             },
           }
         );
@@ -99,6 +118,7 @@ export const useAuth = () => {
         }
 
         setSession(authData.session);
+        info("User signed up successfully:", data.email);
         return { user: authData.user, session: authData.session };
       } catch (error) {
         await errorMsg("Sign up error:", error);
@@ -107,7 +127,7 @@ export const useAuth = () => {
         setLoading(false);
       }
     },
-    [setSession, setLoading, errorMsg]
+    [setSession, setLoading, errorMsg, info]
   );
 
   const signIn = useCallback(
@@ -124,6 +144,8 @@ export const useAuth = () => {
         if (error) throw error;
 
         setSession(authData.session);
+        info("User signed in successfully:", authData.user?.email);
+        await fetchUserProfile(authData.user!.id);
         return { user: authData.user, session: authData.session };
       } catch (error) {
         await errorMsg("Sign in error:", error);
@@ -132,15 +154,19 @@ export const useAuth = () => {
         setLoading(false);
       }
     },
-    [setSession, setLoading, errorMsg]
+    [setLoading, setSession, info, fetchUserProfile, errorMsg]
   );
 
   const signOut = useCallback(async () => {
     setLoading(true);
     console.log("at signOut...");
     try {
+      const _user = user?.email;
+
       const { error } = await supabase.auth.signOut();
       if (error) throw error;
+
+      info("User signed out successfully:", _user);
       reset();
     } catch (error) {
       console.error("Sign out error:", error);
@@ -148,14 +174,9 @@ export const useAuth = () => {
     } finally {
       setLoading(false);
     }
-  }, [reset, setLoading]);
+  }, [info, reset, setLoading, user?.email]);
 
   return {
-    user,
-    session,
-    isAuthenticated,
-    isLoading,
-    isInitialized,
     signUp,
     signIn,
     signOut,

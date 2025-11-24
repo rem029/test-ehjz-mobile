@@ -49,6 +49,7 @@ export default StyleSheet.create({
   },
   registerContainer: {
     ...globalStyles.rowCenter,
+    flexDirection: "column",
     marginTop: SPACING.xxl,
   },
   registerText: {

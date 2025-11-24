@@ -14,12 +14,32 @@ export default StyleSheet.create({
     ...globalStyles.container,
   },
   header: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: SPACING.xl,
     paddingTop: SPACING.massive,
     paddingBottom: SPACING.xl,
     backgroundColor: COLORS.background,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.divider,
+  },
+  header_left: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "baseline",
+    gap: 2,
+  },
+  header_right: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "baseline",
+  },
+  actionsContainer: {
+    paddingHorizontal: SPACING.xl,
+    paddingVertical: SPACING.md,
+    marginBottom: SPACING.lg,
   },
   loadingContainer: {
     flex: 1,
@@ -36,7 +56,6 @@ export default StyleSheet.create({
   title: {
     fontSize: FONT_SIZES.xxl,
     fontWeight: "600",
-    marginBottom: SPACING.xs,
     color: COLORS.textPrimary,
     fontFamily: FONTS.semiBold,
   },
@@ -46,12 +65,12 @@ export default StyleSheet.create({
     fontFamily: FONTS.regular,
   },
   permissionContainer: {
-    backgroundColor: COLORS.backgroundGray,
-    padding: SPACING.base,
-    marginHorizontal: SPACING.xl,
-    marginTop: SPACING.lg,
-    borderRadius: RADIUS.md,
+    display: "flex",
+    backgroundColor: "#b8b8b8ff",
+    paddingVertical: SPACING.sm,
+    paddingHorizontal: SPACING.sm,
     alignItems: "center",
+    justifyContent: "center",
   },
   permissionText: {
     fontSize: FONT_SIZES.sm,
@@ -88,9 +107,7 @@ export default StyleSheet.create({
   },
   mapContainer: {
     flex: 1,
-    marginHorizontal: SPACING.xl,
-    marginTop: SPACING.lg,
-    borderRadius: RADIUS.lg,
+    width: "100%",
     overflow: "hidden",
     ...SHADOWS.medium,
   },
@@ -100,9 +117,15 @@ export default StyleSheet.create({
   },
   notificationButton: {
     ...globalStyles.buttonPrimary,
-    marginHorizontal: SPACING.xl,
-    marginTop: SPACING.lg,
-    marginBottom: SPACING.xs,
+    paddingVertical: 4,
+    paddingHorizontal: 16,
+    width: "100%",
+  },
+  logoutButton: {
+    ...globalStyles.buttonSecondary,
+    paddingVertical: 4,
+    paddingHorizontal: 16,
+    width: "100%",
   },
   notificationButtonText: {
     ...globalStyles.buttonPrimaryText,
