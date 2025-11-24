@@ -50,7 +50,8 @@ export const COLORS = {
 
   // Status
   success: "#05A357",
-  error: "#CD0A0A",
+  error: "#b90f0fff",
+  errorBackground: "#f6c7c7ff",
   warning: "#F9A825",
   info: "#276EF1",
 
@@ -128,7 +129,7 @@ export const globalStyles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: COLORS.background,
     width: "100%",
-    height: "100%",
+    minHeight: "100%",
   },
 
   keyboardView: {
@@ -246,6 +247,7 @@ export const globalStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     minHeight: 52,
+    width: "100%",
   },
 
   buttonPrimaryText: {

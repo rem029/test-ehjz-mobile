@@ -31,10 +31,12 @@ export default StyleSheet.create({
     ...globalStyles.inputContainer,
   },
   errorContainer: {
-    backgroundColor: COLORS.error + "15",
+    backgroundColor: COLORS.errorBackground,
     borderRadius: SPACING.sm,
     padding: SPACING.md,
+    marginTop: SPACING.md,
     marginBottom: SPACING.md,
+    width: "100%",
   },
   label: {
     ...globalStyles.label,

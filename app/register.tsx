@@ -147,15 +147,28 @@ export default function RegisterPage() {
           }}
         >
           <Text style={{ ...styles.title, color: COLORS.textInverse }}>
-            Create Account
+            Hello there
           </Text>
           <Text style={{ ...styles.subtitle, color: COLORS.textInverse }}>
             Sign up to get started
           </Text>
         </View>
 
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          <View style={styles.formContainer}>
+        <ScrollView
+          style={{ height: "60%" }}
+          contentContainerStyle={{ ...styles.scrollContent }}
+        >
+          <View
+            style={{
+              ...styles.formContainer,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+              gap: 8,
+            }}
+          >
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Full Name</Text>
               <TextInput
@@ -291,7 +304,15 @@ export default function RegisterPage() {
             </View>
             {Object.keys(formErrors).length > 0 && (
               <View style={styles.errorContainer}>
-                <Text style={styles.labelError}>Kindly check all fields</Text>
+                <Text
+                  style={{
+                    ...styles.labelError,
+                    width: "100%",
+                    textAlign: "center",
+                  }}
+                >
+                  Kindly check all fields
+                </Text>
               </View>
             )}
 
