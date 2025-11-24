@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/stores/auth";
 import { COLORS } from "@/styles";
 import styles from "@/styles/login";
 import { Link, router } from "expo-router";
@@ -18,7 +19,8 @@ import { useAuth } from "../hooks/useAuth";
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { signIn, isLoading } = useAuth();
+  const { signIn } = useAuth();
+  const { isLoading } = useAuthStore();
 
   const handleLogin = async () => {
     if (!email || !password) {
@@ -49,11 +51,29 @@ export default function LoginPage() {
         style={styles.keyboardView}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
+        <View
+          style={{
+            width: "100%",
+            height: "60%",
+            backgroundColor: "#000000",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "flex-end",
+            paddingHorizontal: 24,
+            paddingVertical: 8,
+          }}
+        >
+          <Text style={{ ...styles.title, color: COLORS.textInverse }}>
+            Welcome back
+          </Text>
+          <Text style={{ ...styles.subtitle, color: COLORS.textInverse }}>
+            Log in to your account
+          </Text>
+        </View>
+
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.formContainer}>
-            <Text style={styles.title}>Welcome back</Text>
-            <Text style={styles.subtitle}>Log in to your account</Text>
-
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Email</Text>
               <TextInput

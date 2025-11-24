@@ -122,7 +122,10 @@ export const SHADOWS = {
 export const globalStyles = StyleSheet.create({
   // Container
   container: {
-    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: COLORS.background,
     width: "100%",
   },
@@ -133,7 +136,7 @@ export const globalStyles = StyleSheet.create({
 
   scrollContent: {
     flexGrow: 1,
-    padding: SPACING.xl,
+    padding: SPACING.md,
   },
 
   // Card - Clean white surface with subtle shadow
@@ -185,7 +188,7 @@ export const globalStyles = StyleSheet.create({
 
   // Input Container
   inputContainer: {
-    marginBottom: SPACING.lg,
+    width: "100%",
   },
 
   // Label
@@ -272,8 +275,7 @@ export const globalStyles = StyleSheet.create({
 
   // Button - Disabled
   buttonDisabled: {
-    backgroundColor: COLORS.buttonDisabled,
-    opacity: 0.5,
+    opacity: 0.7,
   },
 
   buttonDisabledText: {

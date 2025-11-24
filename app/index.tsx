@@ -74,7 +74,7 @@ export default function Index() {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, justifyContent: "flex-start" }}>
       <View style={styles.header}>
         <View style={styles.header_left}>
           <Text style={styles.title}>Welcome!</Text>

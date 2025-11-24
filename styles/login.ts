@@ -16,6 +16,10 @@ export default StyleSheet.create({
     ...globalStyles.card,
     width: "100%",
     maxWidth: 720,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: 8,
   },
   title: {
     fontSize: FONT_SIZES.xxl,
@@ -41,7 +45,7 @@ export default StyleSheet.create({
   },
   loginButton: {
     ...globalStyles.buttonPrimary,
-    marginTop: SPACING.lg,
+    width: "100%",
   },
   disabledButton: {
     ...globalStyles.buttonDisabled,
@@ -52,7 +56,6 @@ export default StyleSheet.create({
   registerContainer: {
     ...globalStyles.rowCenter,
     flexDirection: "column",
-    marginTop: SPACING.xxl,
   },
   registerText: {
     fontSize: FONT_SIZES.sm,

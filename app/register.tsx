@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useLogger } from "@/hooks/useLogger";
+import { COLORS } from "@/styles";
 import styles from "@/styles/register";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Link, router } from "expo-router";
@@ -132,11 +133,29 @@ export default function RegisterPage() {
         style={styles.keyboardView}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
+        <View
+          style={{
+            width: "100%",
+            height: "60%",
+            backgroundColor: "#000000",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            justifyContent: "flex-end",
+            paddingHorizontal: 24,
+            paddingVertical: 8,
+          }}
+        >
+          <Text style={{ ...styles.title, color: COLORS.textInverse }}>
+            Create Account
+          </Text>
+          <Text style={{ ...styles.subtitle, color: COLORS.textInverse }}>
+            Sign up to get started
+          </Text>
+        </View>
+
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <View style={styles.formContainer}>
-            <Text style={styles.title}>Create Account</Text>
-            <Text style={styles.subtitle}>Sign up to get started</Text>
-
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Full Name</Text>
               <TextInput

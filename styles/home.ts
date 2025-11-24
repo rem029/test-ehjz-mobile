@@ -19,11 +19,12 @@ export default StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: SPACING.xl,
-    paddingTop: SPACING.massive,
+    paddingTop: SPACING.xxxl,
     paddingBottom: SPACING.xl,
     backgroundColor: COLORS.background,
     borderBottomWidth: 1,
     borderBottomColor: COLORS.divider,
+    width: "100%",
   },
   header_left: {
     display: "flex",
@@ -40,6 +41,8 @@ export default StyleSheet.create({
     paddingHorizontal: SPACING.xl,
     paddingVertical: SPACING.md,
     marginBottom: SPACING.lg,
+    width: "100%",
+    height: "40%",
   },
   loadingContainer: {
     flex: 1,
@@ -106,8 +109,8 @@ export default StyleSheet.create({
     fontFamily: FONTS.regular,
   },
   mapContainer: {
-    flex: 1,
     width: "100%",
+    height: "50%",
     overflow: "hidden",
     ...SHADOWS.medium,
   },
