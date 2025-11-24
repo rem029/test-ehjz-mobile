@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useLogger } from "@/hooks/useLogger";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -7,6 +8,7 @@ import {
   Alert,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -24,7 +26,11 @@ export default function RegisterPage() {
     mobileNumber: "",
     address: "",
   });
+  const [formErrors, setFormErrors] = useState<Record<string, string>>({});
   const [dob, setDob] = useState("");
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [dateValue, setDateValue] = useState(new Date());
+
   const [loading, setLoading] = useState(false);
   const { error: errorMsg } = useLogger();
   const { signUp } = useAuth();
@@ -34,6 +40,16 @@ export default function RegisterPage() {
       ...prev,
       [field]: value,
     }));
+  };
+
+  const handleDateChange = (_: any, selectedDate?: Date) => {
+    setShowDatePicker(Platform.OS === "ios"); // Keep open on iOS
+    if (selectedDate) {
+      setDateValue(selectedDate);
+
+      const formatted = selectedDate.toISOString().split("T")[0];
+      setDob(formatted);
+    }
   };
 
   const validateForm = () => {
@@ -46,39 +62,38 @@ export default function RegisterPage() {
       address,
     } = formData;
 
-    if (
-      !fullName ||
-      !email ||
-      !password ||
-      !confirmPassword ||
-      !mobileNumber ||
-      !address
-    ) {
-      Alert.alert("Error", "Please fill in all fields");
-      return false;
+    const errors: Record<string, string> = {};
+
+    if (!fullName) {
+      errors.fullName = "Full name is required";
     }
 
-    if (!email.includes("@")) {
-      Alert.alert("Error", "Please enter a valid email address");
-      return false;
+    if (!address) {
+      errors.address = "Address is required";
+    }
+
+    if (!dob) {
+      errors.dob = "Date of birth is required";
+    }
+
+    if (!email || !email.includes("@")) {
+      errors.email = "Please enter a valid email address";
     }
 
     if (password.length < 6) {
-      Alert.alert("Error", "Password must be at least 6 characters long");
-      return false;
+      errors.password = "Password must be at least 6 characters long";
     }
 
     if (password !== confirmPassword) {
-      Alert.alert("Error", "Passwords do not match");
-      return false;
+      errors.confirmPassword = "Passwords do not match";
     }
 
     if (mobileNumber.length < 8) {
-      Alert.alert("Error", "Please enter a valid mobile number");
-      return false;
+      errors.mobileNumber = "Please enter a valid mobile number";
     }
 
-    return true;
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleRegister = async () => {
@@ -132,6 +147,9 @@ export default function RegisterPage() {
               autoComplete="name"
               textContentType="name"
             />
+            {formErrors.fullName && (
+              <Text style={styles.labelError}>{formErrors.fullName}</Text>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
@@ -147,18 +165,36 @@ export default function RegisterPage() {
               autoComplete="email"
               textContentType="emailAddress"
             />
+            {formErrors.email && (
+              <Text style={styles.labelError}>{formErrors.email}</Text>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
             <Text style={styles.label}>Date of Birth</Text>
-            <TextInput
-              style={styles.input}
-              value={dob}
-              onChangeText={setDob}
-              placeholder="YYYY-MM-DD (e.g., 1990-01-15)"
-              autoComplete="birthdate-day"
-              textContentType="birthdate"
-            />
+            <Pressable onPress={() => setShowDatePicker(true)}>
+              <View pointerEvents="none">
+                <TextInput
+                  style={styles.input}
+                  value={dob}
+                  placeholder="Select your date of birth"
+                  editable={false}
+                />
+              </View>
+            </Pressable>
+            {showDatePicker && (
+              <DateTimePicker
+                value={dateValue}
+                mode="date"
+                display={Platform.OS === "ios" ? "spinner" : "default"}
+                onChange={handleDateChange}
+                maximumDate={new Date()} // Can't select future dates
+                minimumDate={new Date(1900, 0, 1)} // Reasonable minimum
+              />
+            )}
+            {formErrors.dob && (
+              <Text style={styles.labelError}>{formErrors.dob}</Text>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
@@ -172,6 +208,9 @@ export default function RegisterPage() {
               autoComplete="tel"
               textContentType="telephoneNumber"
             />
+            {formErrors.mobileNumber && (
+              <Text style={styles.labelError}>{formErrors.mobileNumber}</Text>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
@@ -186,6 +225,9 @@ export default function RegisterPage() {
               autoComplete="address-line1"
               textContentType="addressCityAndState"
             />
+            {formErrors.address && (
+              <Text style={styles.labelError}>{formErrors.address}</Text>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
@@ -200,6 +242,9 @@ export default function RegisterPage() {
               autoComplete="password-new"
               textContentType="newPassword"
             />
+            {formErrors.password && (
+              <Text style={styles.labelError}>{formErrors.password}</Text>
+            )}
           </View>
 
           <View style={styles.inputContainer}>
@@ -216,7 +261,17 @@ export default function RegisterPage() {
               autoComplete="password-new"
               textContentType="newPassword"
             />
+            {formErrors.confirmPassword && (
+              <Text style={styles.labelError}>
+                {formErrors.confirmPassword}
+              </Text>
+            )}
           </View>
+          {Object.keys(formErrors).length > 0 && (
+            <View style={styles.errorContainer}>
+              <Text style={styles.labelError}>Kindly check all fields</Text>
+            </View>
+          )}
 
           <TouchableOpacity
             style={[styles.registerButton, loading && styles.disabledButton]}
@@ -281,11 +336,26 @@ const styles = StyleSheet.create({
   inputContainer: {
     marginBottom: 20,
   },
+  errorContainer: {
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    backgroundColor: "#ffe6e6",
+    borderRadius: 8,
+    marginBottom: 10,
+  },
   label: {
     fontSize: 16,
     fontWeight: "500",
     marginBottom: 8,
     color: "#333",
+  },
+  labelError: {
+    fontSize: 12,
+    fontWeight: "300",
+    color: "#f65959ff",
   },
   input: {
     borderWidth: 1,
