@@ -124,6 +124,7 @@ export const globalStyles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLORS.background,
+    width: "100%",
   },
 
   keyboardView: {
@@ -207,6 +208,7 @@ export const globalStyles = StyleSheet.create({
     color: COLORS.textPrimary,
     backgroundColor: COLORS.inputBg,
     fontFamily: FONTS.regular,
+    width: "100%",
   },
 
   inputFocused: {

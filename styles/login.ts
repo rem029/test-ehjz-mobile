@@ -14,6 +14,8 @@ export default StyleSheet.create({
   },
   formContainer: {
     ...globalStyles.card,
+    width: "100%",
+    maxWidth: 720,
   },
   title: {
     fontSize: FONT_SIZES.xxl,
