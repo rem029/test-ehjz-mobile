@@ -1,5 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { useLogger } from "@/hooks/useLogger";
+import styles from "@/styles/register";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
@@ -10,7 +11,6 @@ import {
   Platform,
   Pressable,
   ScrollView,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -127,278 +127,176 @@ export default function RegisterPage() {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-    >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.formContainer}>
-          <Text style={styles.title}>Create Account</Text>
-          <Text style={styles.subtitle}>Sign up to get started</Text>
+    <View style={styles.container}>
+      <KeyboardAvoidingView
+        style={styles.keyboardView}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.formContainer}>
+            <Text style={styles.title}>Create Account</Text>
+            <Text style={styles.subtitle}>Sign up to get started</Text>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Full Name</Text>
-            <TextInput
-              style={styles.input}
-              value={formData.fullName}
-              onChangeText={(value) => handleInputChange("fullName", value)}
-              placeholder="Enter your full name"
-              autoCapitalize="words"
-              autoComplete="name"
-              textContentType="name"
-            />
-            {formErrors.fullName && (
-              <Text style={styles.labelError}>{formErrors.fullName}</Text>
-            )}
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              value={formData.email}
-              onChangeText={(value) => handleInputChange("email", value)}
-              placeholder="Enter your email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-              autoComplete="email"
-              textContentType="emailAddress"
-            />
-            {formErrors.email && (
-              <Text style={styles.labelError}>{formErrors.email}</Text>
-            )}
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Date of Birth</Text>
-            <Pressable onPress={() => setShowDatePicker(true)}>
-              <View pointerEvents="none">
-                <TextInput
-                  style={styles.input}
-                  value={dob}
-                  placeholder="Select your date of birth"
-                  editable={false}
-                />
-              </View>
-            </Pressable>
-            {showDatePicker && (
-              <DateTimePicker
-                value={dateValue}
-                mode="date"
-                display={Platform.OS === "ios" ? "spinner" : "default"}
-                onChange={handleDateChange}
-                maximumDate={new Date()} // Can't select future dates
-                minimumDate={new Date(1900, 0, 1)} // Reasonable minimum
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Full Name</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.fullName}
+                onChangeText={(value) => handleInputChange("fullName", value)}
+                placeholder="Enter your full name"
+                autoCapitalize="words"
+                autoComplete="name"
+                textContentType="name"
               />
-            )}
-            {formErrors.dob && (
-              <Text style={styles.labelError}>{formErrors.dob}</Text>
-            )}
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Mobile Number</Text>
-            <TextInput
-              style={styles.input}
-              value={formData.mobileNumber}
-              onChangeText={(value) => handleInputChange("mobileNumber", value)}
-              placeholder="Enter your mobile number"
-              keyboardType="phone-pad"
-              autoComplete="tel"
-              textContentType="telephoneNumber"
-            />
-            {formErrors.mobileNumber && (
-              <Text style={styles.labelError}>{formErrors.mobileNumber}</Text>
-            )}
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Address</Text>
-            <TextInput
-              style={[styles.input, styles.multilineInput]}
-              value={formData.address}
-              onChangeText={(value) => handleInputChange("address", value)}
-              placeholder="Enter your address"
-              multiline
-              numberOfLines={3}
-              autoComplete="address-line1"
-              textContentType="addressCityAndState"
-            />
-            {formErrors.address && (
-              <Text style={styles.labelError}>{formErrors.address}</Text>
-            )}
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              value={formData.password}
-              onChangeText={(value) => handleInputChange("password", value)}
-              placeholder="Enter your password"
-              secureTextEntry
-              autoCapitalize="none"
-              autoComplete="password-new"
-              textContentType="newPassword"
-            />
-            {formErrors.password && (
-              <Text style={styles.labelError}>{formErrors.password}</Text>
-            )}
-          </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Confirm Password</Text>
-            <TextInput
-              style={styles.input}
-              value={formData.confirmPassword}
-              onChangeText={(value) =>
-                handleInputChange("confirmPassword", value)
-              }
-              placeholder="Confirm your password"
-              secureTextEntry
-              autoCapitalize="none"
-              autoComplete="password-new"
-              textContentType="newPassword"
-            />
-            {formErrors.confirmPassword && (
-              <Text style={styles.labelError}>
-                {formErrors.confirmPassword}
-              </Text>
-            )}
-          </View>
-          {Object.keys(formErrors).length > 0 && (
-            <View style={styles.errorContainer}>
-              <Text style={styles.labelError}>Kindly check all fields</Text>
+              {formErrors.fullName && (
+                <Text style={styles.labelError}>{formErrors.fullName}</Text>
+              )}
             </View>
-          )}
 
-          <TouchableOpacity
-            style={[styles.registerButton, loading && styles.disabledButton]}
-            onPress={handleRegister}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#ffffff" />
-            ) : (
-              <Text style={styles.registerButtonText}>Create Account</Text>
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Email</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.email}
+                onChangeText={(value) => handleInputChange("email", value)}
+                placeholder="Enter your email"
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="email"
+                textContentType="emailAddress"
+              />
+              {formErrors.email && (
+                <Text style={styles.labelError}>{formErrors.email}</Text>
+              )}
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Date of Birth</Text>
+              <Pressable onPress={() => setShowDatePicker(true)}>
+                <View pointerEvents="none">
+                  <TextInput
+                    style={styles.input}
+                    value={dob}
+                    placeholder="Select your date of birth"
+                    editable={false}
+                  />
+                </View>
+              </Pressable>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={dateValue}
+                  mode="date"
+                  display={Platform.OS === "ios" ? "spinner" : "default"}
+                  onChange={handleDateChange}
+                  maximumDate={new Date()} // Can't select future dates
+                  minimumDate={new Date(1900, 0, 1)} // Reasonable minimum
+                />
+              )}
+              {formErrors.dob && (
+                <Text style={styles.labelError}>{formErrors.dob}</Text>
+              )}
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Mobile Number</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.mobileNumber}
+                onChangeText={(value) =>
+                  handleInputChange("mobileNumber", value)
+                }
+                placeholder="Enter your mobile number"
+                keyboardType="phone-pad"
+                autoComplete="tel"
+                textContentType="telephoneNumber"
+              />
+              {formErrors.mobileNumber && (
+                <Text style={styles.labelError}>{formErrors.mobileNumber}</Text>
+              )}
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Address</Text>
+              <TextInput
+                style={[styles.input, styles.multilineInput]}
+                value={formData.address}
+                onChangeText={(value) => handleInputChange("address", value)}
+                placeholder="Enter your address"
+                multiline
+                numberOfLines={3}
+                autoComplete="address-line1"
+                textContentType="addressCityAndState"
+              />
+              {formErrors.address && (
+                <Text style={styles.labelError}>{formErrors.address}</Text>
+              )}
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Password</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.password}
+                onChangeText={(value) => handleInputChange("password", value)}
+                placeholder="Enter your password"
+                secureTextEntry
+                autoCapitalize="none"
+                autoComplete="password-new"
+                textContentType="newPassword"
+              />
+              {formErrors.password && (
+                <Text style={styles.labelError}>{formErrors.password}</Text>
+              )}
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Confirm Password</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.confirmPassword}
+                onChangeText={(value) =>
+                  handleInputChange("confirmPassword", value)
+                }
+                placeholder="Confirm your password"
+                secureTextEntry
+                autoCapitalize="none"
+                autoComplete="password-new"
+                textContentType="newPassword"
+              />
+              {formErrors.confirmPassword && (
+                <Text style={styles.labelError}>
+                  {formErrors.confirmPassword}
+                </Text>
+              )}
+            </View>
+            {Object.keys(formErrors).length > 0 && (
+              <View style={styles.errorContainer}>
+                <Text style={styles.labelError}>Kindly check all fields</Text>
+              </View>
             )}
-          </TouchableOpacity>
 
-          <View style={styles.loginContainer}>
-            <Text style={styles.loginText}>Already have an account? </Text>
-            <Link href="/login" style={styles.loginLink}>
-              <Text style={styles.loginLinkText}>Sign In</Text>
-            </Link>
+            <TouchableOpacity
+              style={[styles.registerButton, loading && styles.disabledButton]}
+              onPress={handleRegister}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#ffffff" />
+              ) : (
+                <Text style={styles.registerButtonText}>Create Account</Text>
+              )}
+            </TouchableOpacity>
+
+            <View style={styles.loginContainer}>
+              <Text style={styles.loginText}>Already have an account? </Text>
+              <Link href="/login" style={styles.loginLink}>
+                <Text style={styles.loginLinkText}>Sign In</Text>
+              </Link>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-  scrollContent: {
-    flexGrow: 1,
-    justifyContent: "center",
-    padding: 20,
-  },
-  formContainer: {
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 8,
-    color: "#333",
-  },
-  subtitle: {
-    fontSize: 16,
-    textAlign: "center",
-    marginBottom: 30,
-    color: "#666",
-  },
-  inputContainer: {
-    marginBottom: 20,
-  },
-  errorContainer: {
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    backgroundColor: "#ffe6e6",
-    borderRadius: 8,
-    marginBottom: 10,
-  },
-  label: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 8,
-    color: "#333",
-  },
-  labelError: {
-    fontSize: 12,
-    fontWeight: "300",
-    color: "#f65959ff",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
-    fontSize: 16,
-    backgroundColor: "#f9f9f9",
-  },
-  multilineInput: {
-    height: 80,
-    textAlignVertical: "top",
-  },
-
-  registerButton: {
-    backgroundColor: "#007AFF",
-    borderRadius: 8,
-    padding: 15,
-    alignItems: "center",
-    marginTop: 10,
-  },
-  disabledButton: {
-    opacity: 0.7,
-  },
-  registerButtonText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "600",
-  },
-  loginContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 20,
-  },
-  loginText: {
-    fontSize: 16,
-    color: "#666",
-  },
-  loginLink: {
-    fontSize: 16,
-  },
-  loginLinkText: {
-    color: "#007AFF",
-    fontWeight: "600",
-  },
-});
