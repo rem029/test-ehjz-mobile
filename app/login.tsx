@@ -1,3 +1,4 @@
+import { LinearGradient } from "expo-linear-gradient";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -43,148 +44,212 @@ export default function LoginPage() {
   };
 
   return (
-    <KeyboardAvoidingView
+    <LinearGradient
+      colors={["#0a0a0a", "#1a1a2e", "#16213e"]}
       style={styles.container}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <ScrollView contentContainerStyle={styles.scrollContent}>
-        <View style={styles.formContainer}>
-          <Text style={styles.title}>Welcome Back</Text>
-          <Text style={styles.subtitle}>Sign in to your account</Text>
+      <KeyboardAvoidingView
+        style={styles.keyboardView}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.formContainer}>
+            <View style={styles.glowEffect} />
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email</Text>
-            <TextInput
-              style={styles.input}
-              value={email}
-              onChangeText={setEmail}
-              placeholder="Enter your email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoCorrect={false}
-            />
+            <Text style={styles.title}>WELCOME BACK</Text>
+            <View style={styles.titleUnderline} />
+            <Text style={styles.subtitle}>Enter the matrix</Text>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>EMAIL ADDRESS</Text>
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  style={styles.input}
+                  value={email}
+                  onChangeText={setEmail}
+                  placeholder="user@domain.com"
+                  placeholderTextColor="#666"
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                />
+              </View>
+            </View>
+
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>PASSWORD</Text>
+              <View style={styles.inputWrapper}>
+                <TextInput
+                  style={styles.input}
+                  value={password}
+                  onChangeText={setPassword}
+                  placeholder="••••••••"
+                  placeholderTextColor="#666"
+                  secureTextEntry
+                  autoCapitalize="none"
+                />
+              </View>
+            </View>
+
+            <TouchableOpacity
+              style={[styles.loginButton, isLoading && styles.disabledButton]}
+              onPress={handleLogin}
+              disabled={isLoading}
+              activeOpacity={0.8}
+            >
+              <LinearGradient
+                colors={["#00d4ff", "#0099ff", "#0066ff"]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.gradientButton}
+              >
+                {isLoading ? (
+                  <ActivityIndicator color="#ffffff" />
+                ) : (
+                  <Text style={styles.loginButtonText}>SIGN IN</Text>
+                )}
+              </LinearGradient>
+            </TouchableOpacity>
+
+            <View style={styles.registerContainer}>
+              <Text style={styles.registerText}>New user? </Text>
+              <Link href="/register" style={styles.registerLink}>
+                <Text style={styles.registerLinkText}>CREATE ACCOUNT</Text>
+              </Link>
+            </View>
           </View>
-
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password</Text>
-            <TextInput
-              style={styles.input}
-              value={password}
-              onChangeText={setPassword}
-              placeholder="Enter your password"
-              secureTextEntry
-              autoCapitalize="none"
-            />
-          </View>
-
-          <TouchableOpacity
-            style={[styles.loginButton, isLoading && styles.disabledButton]}
-            onPress={handleLogin}
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <ActivityIndicator color="#ffffff" />
-            ) : (
-              <Text style={styles.loginButtonText}>Sign In</Text>
-            )}
-          </TouchableOpacity>
-
-          <View style={styles.registerContainer}>
-            <Text style={styles.registerText}>
-              Don&apos;t have an account?{" "}
-            </Text>
-            <Link href="/register" style={styles.registerLink}>
-              <Text style={styles.registerLinkText}>Sign Up</Text>
-            </Link>
-          </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f5f5f5",
+  },
+  keyboardView: {
+    flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 20,
+    padding: 24,
   },
   formContainer: {
-    backgroundColor: "#ffffff",
-    borderRadius: 10,
-    padding: 20,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+    backgroundColor: "rgba(26, 26, 46, 0.95)",
+    borderRadius: 20,
+    padding: 32,
+    borderWidth: 1,
+    borderColor: "rgba(0, 212, 255, 0.2)",
+    position: "relative",
+    overflow: "hidden",
+  },
+  glowEffect: {
+    position: "absolute",
+    top: -100,
+    right: -100,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: "rgba(0, 153, 255, 0.1)",
+    opacity: 0.5,
   },
   title: {
-    fontSize: 28,
-    fontWeight: "bold",
+    fontSize: 32,
+    fontWeight: "700",
     textAlign: "center",
     marginBottom: 8,
-    color: "#333",
+    color: "#ffffff",
+    fontFamily: Platform.OS === "ios" ? "System" : "Poppins-Bold",
+    letterSpacing: 2,
+  },
+  titleUnderline: {
+    width: 60,
+    height: 3,
+    backgroundColor: "#00d4ff",
+    alignSelf: "center",
+    marginBottom: 12,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "center",
-    marginBottom: 30,
-    color: "#666",
+    marginBottom: 40,
+    color: "#00d4ff",
+    fontFamily: Platform.OS === "ios" ? "System" : "Poppins-Regular",
+    letterSpacing: 1,
+    textTransform: "uppercase",
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 24,
   },
   label: {
-    fontSize: 16,
-    fontWeight: "500",
-    marginBottom: 8,
-    color: "#333",
+    fontSize: 12,
+    fontWeight: "600",
+    marginBottom: 10,
+    color: "#00d4ff",
+    fontFamily: Platform.OS === "ios" ? "System" : "Poppins-SemiBold",
+    letterSpacing: 1.5,
+    textTransform: "uppercase",
+  },
+  inputWrapper: {
+    borderWidth: 1,
+    borderColor: "rgba(0, 212, 255, 0.3)",
+    borderRadius: 12,
+    backgroundColor: "rgba(0, 0, 0, 0.4)",
+    overflow: "hidden",
   },
   input: {
-    borderWidth: 1,
-    borderColor: "#ddd",
-    borderRadius: 8,
-    padding: 12,
+    padding: 16,
     fontSize: 16,
-    backgroundColor: "#f9f9f9",
+    color: "#ffffff",
+    fontFamily: Platform.OS === "ios" ? "System" : "Poppins-Regular",
   },
   loginButton: {
-    backgroundColor: "#007AFF",
-    borderRadius: 8,
-    padding: 15,
+    borderRadius: 12,
+    marginTop: 16,
+    overflow: "hidden",
+    elevation: 8,
+    shadowColor: "#00d4ff",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+  },
+  gradientButton: {
+    padding: 18,
     alignItems: "center",
-    marginTop: 10,
   },
   disabledButton: {
-    opacity: 0.7,
+    opacity: 0.6,
   },
   loginButtonText: {
     color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "700",
+    fontFamily: Platform.OS === "ios" ? "System" : "Poppins-Bold",
+    letterSpacing: 2,
   },
   registerContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 20,
+    marginTop: 32,
+    alignItems: "center",
   },
   registerText: {
-    fontSize: 16,
-    color: "#666",
+    fontSize: 14,
+    color: "#999",
+    fontFamily: Platform.OS === "ios" ? "System" : "Poppins-Regular",
   },
   registerLink: {
-    fontSize: 16,
+    fontSize: 14,
   },
   registerLinkText: {
-    color: "#007AFF",
-    fontWeight: "600",
+    color: "#00d4ff",
+    fontWeight: "700",
+    fontFamily: Platform.OS === "ios" ? "System" : "Poppins-Bold",
+    letterSpacing: 1,
   },
 });
