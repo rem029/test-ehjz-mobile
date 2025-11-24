@@ -1,6 +1,7 @@
 import { useCallback, useEffect } from "react";
 import { supabase } from "../services/supabaseClient";
 import { useAuthStore } from "../stores/auth";
+import { useLogger } from "./useLogger";
 
 export interface SignUpData {
   email: string;
@@ -29,10 +30,12 @@ export const useAuth = () => {
     setInitialized,
     reset,
   } = useAuthStore();
+  const { error: errorMsg } = useLogger();
 
   // Initialize auth state
   useEffect(() => {
     const initAuth = async () => {
+      console.log("Initializing auth state...");
       setLoading(true);
       try {
         const {
@@ -40,7 +43,7 @@ export const useAuth = () => {
         } = await supabase.auth.getUser();
         setUser(user);
       } catch (error) {
-        console.error("Failed to initialize auth:", error);
+        await errorMsg("Failed to initialize auth:", error);
       } finally {
         setLoading(false);
         setInitialized(true);
@@ -59,10 +62,12 @@ export const useAuth = () => {
     return () => {
       subscription.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setUser, setLoading, setInitialized]);
 
   const signUp = useCallback(
     async (data: SignUpData) => {
+      console.log("at signUp...");
       setLoading(true);
       try {
         // First, sign up with Supabase Auth (auto-confirmed)
@@ -96,17 +101,18 @@ export const useAuth = () => {
         setSession(authData.session);
         return { user: authData.user, session: authData.session };
       } catch (error) {
-        console.error("Sign up error:", error);
+        await errorMsg("Sign up error:", error);
         throw error;
       } finally {
         setLoading(false);
       }
     },
-    [setSession, setLoading]
+    [setSession, setLoading, errorMsg]
   );
 
   const signIn = useCallback(
     async (data: SignInData) => {
+      console.log("at signsignIn...");
       setLoading(true);
       try {
         const { data: authData, error } =
@@ -120,17 +126,18 @@ export const useAuth = () => {
         setSession(authData.session);
         return { user: authData.user, session: authData.session };
       } catch (error) {
-        console.error("Sign in error:", error);
+        await errorMsg("Sign in error:", error);
         throw error;
       } finally {
         setLoading(false);
       }
     },
-    [setSession, setLoading]
+    [setSession, setLoading, errorMsg]
   );
 
   const signOut = useCallback(async () => {
     setLoading(true);
+    console.log("at signOut...");
     try {
       const { error } = await supabase.auth.signOut();
       if (error) throw error;

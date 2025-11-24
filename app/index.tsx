@@ -1,6 +1,7 @@
-import * as Location from "expo-location";
+import { useLogger } from "@/hooks/useLogger";
+import { usePermissions } from "@/hooks/usePermissions";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -14,12 +15,16 @@ import { useAuth } from "../hooks/useAuth";
 
 export default function Index() {
   const { user, isLoading, isInitialized, signOut } = useAuth();
-  const [locationPermission, setLocationPermission] = useState<string | null>(
-    null
-  );
-  const [currentLocation, setCurrentLocation] =
-    useState<Location.LocationObject | null>(null);
-  const [loadingLocation, setLoadingLocation] = useState(false);
+  const { error: errorMsg } = useLogger();
+  const {
+    locationPermission,
+    currentLocation,
+    loadingLocation,
+    notificationPermission,
+    requestLocationPermission,
+    requestNotificationPermission,
+    sendLocationNotification,
+  } = usePermissions();
 
   useEffect(() => {
     if (isInitialized && !user) {
@@ -28,52 +33,9 @@ export default function Index() {
   }, [user, isInitialized]);
 
   useEffect(() => {
-    if (user) {
-      requestLocationPermission();
-    }
-  }, [user]);
-
-  const requestLocationPermission = async () => {
-    try {
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      setLocationPermission(status);
-
-      if (status !== "granted") {
-        Alert.alert(
-          "Location Permission",
-          "Location permission is required for this app to function properly.",
-          [
-            {
-              text: "OK",
-              onPress: () => {
-                // User can still use the app but with limited functionality
-              },
-            },
-          ]
-        );
-      } else {
-        // If permission granted, get current location
-        getCurrentLocation();
-      }
-    } catch (error) {
-      console.error("Error requesting location permission:", error);
-    }
-  };
-
-  const getCurrentLocation = async () => {
-    setLoadingLocation(true);
-    try {
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.High,
-      });
-      setCurrentLocation(location);
-    } catch (error) {
-      console.error("Error getting location:", error);
-      Alert.alert("Error", "Failed to get current location");
-    } finally {
-      setLoadingLocation(false);
-    }
-  };
+    requestLocationPermission();
+    requestNotificationPermission();
+  }, []);
 
   const handleLogout = async () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
@@ -86,7 +48,7 @@ export default function Index() {
             await signOut();
             router.replace("/login");
           } catch (error: any) {
-            console.error("Logout error:", error);
+            await errorMsg("Logout error:", error);
             Alert.alert("Error", "Failed to logout");
           }
         },
@@ -169,6 +131,19 @@ export default function Index() {
           </MapView>
         </View>
       )}
+
+      <TouchableOpacity
+        style={[
+          styles.notificationButton,
+          !currentLocation && styles.disabledButton,
+        ]}
+        onPress={sendLocationNotification}
+        disabled={!currentLocation || !notificationPermission}
+      >
+        <Text style={styles.notificationButtonText}>
+          📍 Send Location Notification
+        </Text>
+      </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={handleLogout}>
         <Text style={styles.buttonText}>Logout</Text>
@@ -265,10 +240,27 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  notificationButton: {
+    backgroundColor: "#28a745",
+    padding: 15,
+    marginHorizontal: 20,
+    marginBottom: 10,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  notificationButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  disabledButton: {
+    opacity: 0.5,
+  },
   button: {
     backgroundColor: "#dc3545",
     padding: 15,
     margin: 20,
+    marginTop: 10,
     borderRadius: 8,
     alignItems: "center",
   },

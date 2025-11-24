@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
+import { useLogger } from "@/hooks/useLogger";
 import { Link, router } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -25,7 +26,7 @@ export default function RegisterPage() {
   });
   const [dob, setDob] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const { error: errorMsg } = useLogger();
   const { signUp } = useAuth();
 
   const handleInputChange = (field: string, value: string) => {
@@ -103,7 +104,8 @@ export default function RegisterPage() {
         [{ text: "OK", onPress: () => router.replace("/login") }]
       );
     } catch (error: any) {
-      Alert.alert("Registration Error", error.message || "Failed to register");
+      await errorMsg("Registration Error", error);
+      Alert.alert("Registration Error", "Failed to register");
     } finally {
       setLoading(false);
     }
