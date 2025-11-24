@@ -73,7 +73,7 @@ export default function RegisterPage() {
       return false;
     }
 
-    if (mobileNumber.length < 10) {
+    if (mobileNumber.length < 8) {
       Alert.alert("Error", "Please enter a valid mobile number");
       return false;
     }
@@ -129,6 +129,8 @@ export default function RegisterPage() {
               onChangeText={(value) => handleInputChange("fullName", value)}
               placeholder="Enter your full name"
               autoCapitalize="words"
+              autoComplete="name"
+              textContentType="name"
             />
           </View>
 
@@ -142,6 +144,8 @@ export default function RegisterPage() {
               keyboardType="email-address"
               autoCapitalize="none"
               autoCorrect={false}
+              autoComplete="email"
+              textContentType="emailAddress"
             />
           </View>
 
@@ -152,6 +156,8 @@ export default function RegisterPage() {
               value={dob}
               onChangeText={setDob}
               placeholder="YYYY-MM-DD (e.g., 1990-01-15)"
+              autoComplete="birthdate-day"
+              textContentType="birthdate"
             />
           </View>
 
@@ -163,6 +169,8 @@ export default function RegisterPage() {
               onChangeText={(value) => handleInputChange("mobileNumber", value)}
               placeholder="Enter your mobile number"
               keyboardType="phone-pad"
+              autoComplete="tel"
+              textContentType="telephoneNumber"
             />
           </View>
 
@@ -175,6 +183,8 @@ export default function RegisterPage() {
               placeholder="Enter your address"
               multiline
               numberOfLines={3}
+              autoComplete="address-line1"
+              textContentType="addressCityAndState"
             />
           </View>
 
@@ -187,6 +197,8 @@ export default function RegisterPage() {
               placeholder="Enter your password"
               secureTextEntry
               autoCapitalize="none"
+              autoComplete="password-new"
+              textContentType="newPassword"
             />
           </View>
 
@@ -201,6 +213,8 @@ export default function RegisterPage() {
               placeholder="Confirm your password"
               secureTextEntry
               autoCapitalize="none"
+              autoComplete="password-new"
+              textContentType="newPassword"
             />
           </View>
 
