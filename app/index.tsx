@@ -1,22 +1,24 @@
+import * as Location from "expo-location";
 import { router } from "expo-router";
 import React, { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
-  Dimensions,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { useAuth } from "../hooks/useAuth";
-import * as Location from "expo-location";
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import { useAuth } from "../hooks/useAuth";
 
 export default function Index() {
   const { user, isLoading, isInitialized, signOut } = useAuth();
-  const [locationPermission, setLocationPermission] = useState<string | null>(null);
-  const [currentLocation, setCurrentLocation] = useState<Location.LocationObject | null>(null);
+  const [locationPermission, setLocationPermission] = useState<string | null>(
+    null
+  );
+  const [currentLocation, setCurrentLocation] =
+    useState<Location.LocationObject | null>(null);
   const [loadingLocation, setLoadingLocation] = useState(false);
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function Index() {
     try {
       const { status } = await Location.requestForegroundPermissionsAsync();
       setLocationPermission(status);
-      
+
       if (status !== "granted") {
         Alert.alert(
           "Location Permission",
@@ -115,14 +117,17 @@ export default function Index() {
       {locationPermission && (
         <View style={styles.permissionContainer}>
           <Text style={styles.permissionText}>
-            Location Permission: {locationPermission === "granted" ? "✓ Granted" : "✗ Denied"}
+            Location Permission:{" "}
+            {locationPermission === "granted" ? "✓ Granted" : "✗ Denied"}
           </Text>
           {locationPermission !== "granted" && (
-            <TouchableOpacity 
-              style={styles.permissionButton} 
+            <TouchableOpacity
+              style={styles.permissionButton}
               onPress={requestLocationPermission}
             >
-              <Text style={styles.permissionButtonText}>Request Permission</Text>
+              <Text style={styles.permissionButtonText}>
+                Request Permission
+              </Text>
             </TouchableOpacity>
           )}
         </View>
@@ -131,7 +136,9 @@ export default function Index() {
       {loadingLocation && (
         <View style={styles.locationLoading}>
           <ActivityIndicator size="small" color="#007AFF" />
-          <Text style={styles.locationLoadingText}>Getting your location...</Text>
+          <Text style={styles.locationLoadingText}>
+            Getting your location...
+          </Text>
         </View>
       )}
 
@@ -155,7 +162,9 @@ export default function Index() {
                 longitude: currentLocation.coords.longitude,
               }}
               title="You are here"
-              description={`Lat: ${currentLocation.coords.latitude.toFixed(6)}, Lng: ${currentLocation.coords.longitude.toFixed(6)}`}
+              description={`Lat: ${currentLocation.coords.latitude.toFixed(
+                6
+              )}, Lng: ${currentLocation.coords.longitude.toFixed(6)}`}
             />
           </MapView>
         </View>
