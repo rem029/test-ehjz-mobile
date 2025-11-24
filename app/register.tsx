@@ -136,7 +136,7 @@ export default function RegisterPage() {
         <View
           style={{
             width: "100%",
-            height: "60%",
+            height: "40%",
             backgroundColor: "#000000",
             display: "flex",
             flexDirection: "column",

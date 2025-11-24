@@ -136,7 +136,6 @@ export const globalStyles = StyleSheet.create({
   },
 
   scrollContent: {
-    flexGrow: 1,
     padding: SPACING.md,
   },
 
