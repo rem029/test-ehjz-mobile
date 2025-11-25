@@ -1,13 +1,5 @@
 import { StyleSheet } from "react-native";
-import {
-  COLORS,
-  FONTS,
-  FONT_SIZES,
-  RADIUS,
-  SHADOWS,
-  SPACING,
-  globalStyles,
-} from ".";
+import { COLORS, FONTS, FONT_SIZES, SHADOWS, SPACING, globalStyles } from ".";
 
 export default StyleSheet.create({
   container: {
@@ -98,9 +90,6 @@ export default StyleSheet.create({
     padding: SPACING.base,
     marginHorizontal: SPACING.xl,
     marginTop: SPACING.lg,
-    borderRadius: RADIUS.md,
-    borderWidth: 1,
-    borderColor: COLORS.divider,
     height: "100%",
   },
   locationLoadingText: {

@@ -1,3 +1,4 @@
+import { setupGlobalErrorHandler } from "@/utils/globalErrorHandler";
 import {
   Poppins_400Regular,
   Poppins_600SemiBold,
@@ -8,6 +9,8 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
+// Initialize the global error handler as early as possible
+setupGlobalErrorHandler();
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 

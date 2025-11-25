@@ -10,11 +10,12 @@ import React, { useEffect } from "react";
 import {
   ActivityIndicator,
   Alert,
+  Platform,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
+import MapView, { Marker, UrlTile } from "react-native-maps";
 
 export default function Index() {
   const { signOut } = useAuth();
@@ -100,40 +101,54 @@ export default function Index() {
         {loadingLocation ? (
           <View style={styles.locationLoading}>
             <ActivityIndicator size="small" color="#007AFF" />
-            <Text style={styles.locationLoadingText}>
-              Getting your location...
-            </Text>
+            <Text style={styles.locationLoadingText}>Getting location...</Text>
           </View>
-        ) : (
-          <>
-            {locationPermission === "granted" && currentLocation && (
-              <MapView
-                style={styles.map}
-                provider={PROVIDER_GOOGLE}
-                initialRegion={{
-                  latitude: currentLocation.coords.latitude,
-                  longitude: currentLocation.coords.longitude,
-                  latitudeDelta: 0.01,
-                  longitudeDelta: 0.01,
-                }}
-                showsUserLocation
-                showsMyLocationButton
-              >
-                <Marker
-                  coordinate={{
-                    latitude: currentLocation.coords.latitude,
-                    longitude: currentLocation.coords.longitude,
-                  }}
-                  title="You are here"
-                  description={`Lat: ${currentLocation.coords.latitude.toFixed(
-                    6
-                  )}, Lng: ${currentLocation.coords.longitude.toFixed(6)}`}
-                />
-              </MapView>
+        ) : locationPermission === "granted" && currentLocation ? (
+          <MapView
+            style={styles.map}
+            // CRITICAL CHANGE 1: Remove provider={PROVIDER_GOOGLE}
+            // CRITICAL CHANGE 2: Set mapType="none" on Android to hide the Google Grid
+            mapType={Platform.OS === "android" ? "none" : "standard"}
+            initialRegion={{
+              latitude: currentLocation.coords.latitude,
+              longitude: currentLocation.coords.longitude,
+              latitudeDelta: 0.01,
+              longitudeDelta: 0.01,
+            }}
+            showsUserLocation
+            showsMyLocationButton
+          >
+            {/* CRITICAL CHANGE 3: Add OSM Tiles with zIndex */}
+            {Platform.OS === "android" && (
+              <UrlTile
+                urlTemplate="https://a.tile.openstreetmap.de/tiles/osmde/{z}/{x}/{y}.png"
+                tileSize={256}
+                maximumZ={19}
+                flipY={false}
+                zIndex={1}
+                shouldReplaceMapContent={true}
+              />
             )}
-          </>
+
+            <Marker
+              coordinate={{
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude,
+              }}
+              title="You are here"
+            />
+          </MapView>
+        ) : (
+          // Fallback UI
+          <View style={styles.locationLoading}>
+            <Text>Location permission needed.</Text>
+            <TouchableOpacity onPress={requestLocationPermission}>
+              <Text style={{ color: "blue" }}>Tap to Enable</Text>
+            </TouchableOpacity>
+          </View>
         )}
       </View>
+
       <View style={styles.actionsContainer}>
         <TouchableOpacity
           style={[
