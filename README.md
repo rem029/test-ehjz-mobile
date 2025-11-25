@@ -2,6 +2,15 @@
 
 This is an Expo React Native application integrated with Supabase for Authentication, User Management, and Logging.
 
+## App Purpose & Features
+
+This application demonstrates a production-ready architecture with the following core capabilities:
+
+- **Secure Authentication**: Login and registration flows powered by Supabase Auth.
+- **Location Tracking**: Real-time user location visualization using Google Maps integration.
+- **Push Notification**: Notify users their own accurate current location.
+- **Remote Logging**: A centralized system for capturing application errors and operational logs directly to the database for// filepath: /home/lawrenceponce/test-ehjz-mobile/README.md
+
 ## 1. Database Setup (Supabase)
 
 Before running the application, you need to set up the database tables in your Supabase project. Navigate to the **SQL Editor** in your Supabase dashboard and run the following scripts.
