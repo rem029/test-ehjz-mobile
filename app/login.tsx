@@ -54,7 +54,7 @@ export default function LoginPage() {
         <View
           style={{
             width: "100%",
-            height: "60%",
+            height: "50%",
             backgroundColor: "#000000",
             display: "flex",
             flexDirection: "column",
@@ -72,7 +72,10 @@ export default function LoginPage() {
           </Text>
         </View>
 
-        <ScrollView contentContainerStyle={styles.scrollContent}>
+        <ScrollView
+          style={{ height: "50%" }}
+          contentContainerStyle={styles.scrollContent}
+        >
           <View style={styles.formContainer}>
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Email</Text>

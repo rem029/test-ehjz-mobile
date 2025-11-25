@@ -136,7 +136,7 @@ export default function RegisterPage() {
         <View
           style={{
             width: "100%",
-            height: "40%",
+            height: "50%",
             backgroundColor: "#000000",
             display: "flex",
             flexDirection: "column",
@@ -155,7 +155,7 @@ export default function RegisterPage() {
         </View>
 
         <ScrollView
-          style={{ height: "60%" }}
+          style={{ height: "50%" }}
           contentContainerStyle={{ ...styles.scrollContent }}
         >
           <View
