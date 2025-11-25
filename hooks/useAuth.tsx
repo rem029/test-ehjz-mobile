@@ -17,6 +17,8 @@ export interface SignInData {
   password: string;
 }
 
+// This custom hooks handles authentication logic with supabase and updates the global auth store.
+
 export const useAuth = () => {
   const {
     user,
@@ -54,6 +56,7 @@ export const useAuth = () => {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
+      // Sign out case, clear profile
       if (event === "SIGNED_OUT") setProfile(null);
     });
 
@@ -63,6 +66,7 @@ export const useAuth = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setUser, setLoading, setInitialized]);
 
+  // Fetches user profile from database. FYI. Auth user and profile are separate in supabase.
   const fetchUserProfile = useCallback(
     async (userId: string) => {
       try {
@@ -83,6 +87,7 @@ export const useAuth = () => {
     [errorMsg, setProfile]
   );
 
+  // Handles new registration from mobile app to supabase
   const signUp = useCallback(
     async (data: SignUpData) => {
       console.log("at signUp...", data.email, data.mobileNumber);
@@ -130,6 +135,7 @@ export const useAuth = () => {
     [setSession, setLoading, errorMsg, info]
   );
 
+  // Handles logins from mobile app to supabase
   const signIn = useCallback(
     async (data: SignInData) => {
       console.log("at signsignIn...");
@@ -157,6 +163,7 @@ export const useAuth = () => {
     [setLoading, setSession, info, fetchUserProfile, errorMsg]
   );
 
+  // Handles logouts/signouts from mobile app to supabase
   const signOut = useCallback(async () => {
     setLoading(true);
     console.log("at signOut...");
@@ -176,6 +183,7 @@ export const useAuth = () => {
     }
   }, [info, reset, setLoading, user?.email]);
 
+  // returns this auth functions to be used in components
   return {
     signUp,
     signIn,

@@ -4,6 +4,8 @@ import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
 import { Alert, Platform } from "react-native";
 
+// custom hooks to handle permissions for location and notifications, can be extended if needed.
+
 export const usePermissions = () => {
   const { error: errorMsg } = useLogger();
   const [locationPermission, setLocationPermission] = useState<string | null>(

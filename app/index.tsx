@@ -17,9 +17,14 @@ import {
 import MapView, { Marker, PROVIDER_GOOGLE } from "react-native-maps";
 
 export default function Index() {
+  // Used for authentication and user state
   const { signOut } = useAuth();
   const { user, isLoading, isInitialized, profile } = useAuthStore();
+
+  // Used for logging errors
   const { error: errorMsg } = useLogger();
+
+  // Used for requesting permissions and getting location
   const {
     locationPermission,
     currentLocation,
@@ -30,17 +35,20 @@ export default function Index() {
     sendLocationNotification,
   } = usePermissions();
 
+  // Checks for user state and redirects to login if not authenticated
   useEffect(() => {
     if (isInitialized && !user) {
       router.replace("/login");
     }
   }, [user, isInitialized]);
 
+  // Request permissions on mount
   useEffect(() => {
     requestLocationPermission();
     requestNotificationPermission();
   }, []);
 
+  // Handles logouts
   const handleLogout = async () => {
     Alert.alert("Logout", "Are you sure you want to logout?", [
       { text: "Cancel", style: "cancel" },
@@ -60,6 +68,7 @@ export default function Index() {
     ]);
   };
 
+  // If still loading or initializing, show loading screen
   if (!isInitialized || isLoading) {
     return (
       <View style={styles.loadingContainer}>
@@ -69,8 +78,9 @@ export default function Index() {
     );
   }
 
+  // If no user, return null (should not happen due to redirect above)
   if (!user) {
-    return null; // Will redirect to login
+    return null;
   }
 
   return (
@@ -103,10 +113,9 @@ export default function Index() {
             <Text style={styles.locationLoadingText}>Getting location...</Text>
           </View>
         ) : locationPermission === "granted" && currentLocation ? (
-          // 2. The Standard Google Map
           <MapView
             style={styles.map}
-            provider={PROVIDER_GOOGLE} // Use the Native Google Engine
+            provider={PROVIDER_GOOGLE}
             initialRegion={{
               latitude: currentLocation.coords.latitude,
               longitude: currentLocation.coords.longitude,
@@ -126,7 +135,6 @@ export default function Index() {
             />
           </MapView>
         ) : (
-          // Fallback UI
           <View style={styles.locationLoading}>
             <Text>Location permission needed.</Text>
             <TouchableOpacity onPress={requestLocationPermission}>

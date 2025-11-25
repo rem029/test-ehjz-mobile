@@ -6,6 +6,7 @@ import { createClient } from "@supabase/supabase-js";
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!; // This needs to be set at .env
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!; // This needs to be set at .env
 
+// Create the supabase client with async storage for React Native
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: AsyncStorage,

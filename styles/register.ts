@@ -1,6 +1,8 @@
 import { StyleSheet } from "react-native";
 import { COLORS, FONT_SIZES, FONTS, globalStyles, SPACING } from ".";
 
+// Styles used for register
+
 export default StyleSheet.create({
   container: {
     ...globalStyles.container,

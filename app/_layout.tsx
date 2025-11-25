@@ -9,12 +9,14 @@ import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
-// Initialize the global error handler as early as possible
+// Initialize the global error handler as early as possible. (Expiremental)
 setupGlobalErrorHandler();
+
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+  // Load custom fonts
   let [fontsLoaded] = useFonts({
     "Poppins-Regular": Poppins_400Regular,
     "Poppins-SemiBold": Poppins_600SemiBold,

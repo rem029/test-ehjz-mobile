@@ -17,11 +17,13 @@ import {
 import { useAuth } from "../hooks/useAuth";
 
 export default function LoginPage() {
+  // State for email and password inputs
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signIn } = useAuth();
   const { isLoading } = useAuthStore();
 
+  // Handles login button press and uses signIn from useAuth hook
   const handleLogin = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please fill in all fields");

@@ -19,6 +19,7 @@ import {
 } from "react-native";
 
 export default function RegisterPage() {
+  // State for user inputs
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -27,12 +28,18 @@ export default function RegisterPage() {
     mobileNumber: "",
     address: "",
   });
+
+  // State for displaying input errors
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
+
+  // State for date of birth
   const [dob, setDob] = useState("");
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [dateValue, setDateValue] = useState(new Date());
 
   const [loading, setLoading] = useState(false);
+
+  // Logger and auth hooks
   const { error: errorMsg } = useLogger();
   const { signUp } = useAuth();
 
@@ -53,6 +60,7 @@ export default function RegisterPage() {
     }
   };
 
+  // quick helper function to validate form inputs
   const validateForm = () => {
     const {
       fullName,
@@ -97,6 +105,7 @@ export default function RegisterPage() {
     return Object.keys(errors).length === 0;
   };
 
+  // handles registration and calling signUp from useAuth hook
   const handleRegister = async () => {
     if (!validateForm()) return;
 

@@ -2,6 +2,8 @@ import type { Session, User } from "@supabase/supabase-js";
 import { create } from "zustand";
 
 // Our global state management for authentication. Used zustand for simplicity.
+
+// Defined interfaces for type consistency.
 export interface UserProfile {
   full_name?: string;
   dob?: string;
@@ -22,6 +24,7 @@ interface AuthState {
   reset: () => void;
 }
 
+// Create the zustand store for authentication state.
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   profile: null,

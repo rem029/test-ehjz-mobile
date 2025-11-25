@@ -1,5 +1,7 @@
 import "dotenv/config";
 
+// renamed to app.config.js to load google api key from .env file
+
 export default {
   expo: {
     name: "test-ehjz-mobile",
@@ -26,7 +28,7 @@ export default {
       package: "com.rem029.test.ehjz.mobile.com",
       config: {
         googleMaps: {
-          apiKey: process.env.EXPO_PUBLIC_GOOGLE_API_KEY,
+          apiKey: process.env.EXPO_PUBLIC_GOOGLE_API_KEY, // This needs to be defined in your .env file
         },
       },
       permissions: [

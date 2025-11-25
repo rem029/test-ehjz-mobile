@@ -1,6 +1,8 @@
 import { useCallback } from "react";
 import { supabase } from "../services/supabaseClient";
 
+// extra hooks component for logging
+
 type LogLevel = "info" | "warn" | "error";
 
 interface LogEntry {
