@@ -56,16 +56,21 @@ export default StyleSheet.create({
   registerContainer: {
     ...globalStyles.rowCenter,
     flexDirection: "column",
+    width: "100%",
   },
   registerText: {
     fontSize: FONT_SIZES.sm,
     color: COLORS.textSecondary,
     fontFamily: FONTS.regular,
+    width: "100%",
+    textAlign: "center",
   },
   registerLink: {
     fontSize: FONT_SIZES.sm,
     color: COLORS.textPrimary,
     fontFamily: FONTS.semiBold,
     textDecorationLine: "underline",
+    width: "100%",
+    textAlign: "center",
   },
 });

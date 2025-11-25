@@ -1,6 +1,7 @@
 import type { Session, User } from "@supabase/supabase-js";
 import { create } from "zustand";
 
+// Our global state management for authentication. Used zustand for simplicity.
 export interface UserProfile {
   full_name?: string;
   dob?: string;

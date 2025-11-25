@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from "react-native";
 
-// FONTS - Uber style uses clean, sans-serif fonts
+// Global base styles. Can be extended if needed
+
 export const FONTS = {
   regular: Platform.OS === "ios" ? "System" : "Poppins-Regular",
   semiBold: Platform.OS === "ios" ? "System" : "Poppins-SemiBold",
@@ -19,7 +20,6 @@ export const FONT_SIZES = {
   huge: 42,
 };
 
-// COLORS - Uber's minimalist black & white aesthetic with subtle grays
 export const COLORS = {
   // Primary
   primary: "#000000",
@@ -62,7 +62,6 @@ export const COLORS = {
   shadow: "rgba(0, 0, 0, 0.1)",
 };
 
-// SPACING - Uber uses consistent 4px grid
 export const SPACING = {
   xxs: 2,
   xs: 4,
@@ -77,7 +76,6 @@ export const SPACING = {
   massive: 64,
 };
 
-// BORDER RADIUS - Uber uses subtle, consistent radius
 export const RADIUS = {
   xs: 4,
   sm: 6,
@@ -87,7 +85,6 @@ export const RADIUS = {
   full: 9999,
 };
 
-// SHADOWS - Subtle elevation, Uber style
 export const SHADOWS = {
   none: {
     shadowColor: "transparent",
@@ -119,7 +116,6 @@ export const SHADOWS = {
   },
 };
 
-// GLOBAL STYLES
 export const globalStyles = StyleSheet.create({
   // Container
   container: {
@@ -323,7 +319,6 @@ export const globalStyles = StyleSheet.create({
   },
 });
 
-// Helper function to create spacing styles
 export const createSpacing = (value: keyof typeof SPACING) => ({
   margin: SPACING[value],
 });
