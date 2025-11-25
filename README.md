@@ -7,6 +7,7 @@ This is an Expo React Native application integrated with Supabase for Authentica
 Before running the application, you need to set up the database tables in your Supabase project. Navigate to the **SQL Editor** in your Supabase dashboard and run the following scripts.
 
 ### Create Logs Table
+
 This table is used by the application's logging service and global error handler.
 
 ```sql
@@ -21,6 +22,7 @@ create table public.logs (
 ```
 
 ### Create Users Table
+
 This table stores additional user profile information linked to the Supabase Auth users.
 
 ```sql
