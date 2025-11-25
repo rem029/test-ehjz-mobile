@@ -48,10 +48,12 @@ cp .env.example .env
 ```
 
 Open the `.env` file and populate the following variables found in your Supabase Project Settings (API section):
+Google Map may crash if not properly set with a valid API key.
 
 ```ini
 EXPO_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_here
 EXPO_PUBLIC_SUPABASE_URL=your_project_url_here
+EXPO_PUBLIC_GOOGLE_API_KEY=<google_api_key>
 ```
 
 ## 3. Installation
